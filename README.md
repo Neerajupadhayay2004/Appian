@@ -129,7 +129,9 @@ The project is deployed using **Netlify** and can be accessed here:
 Team Members
 
 Neeraj Upadhayay – Team Lead | System Design & Frontend Development & backend development
+
 Neha Kumari – Research, Documentation & Analysis
+
 Ronak Thakur – UI Development & Feature Implementation
 
 ---
