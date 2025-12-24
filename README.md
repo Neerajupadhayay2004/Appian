@@ -1,73 +1,136 @@
-# Welcome to your Lovable project
+# 📌 Case Compass
 
-## Project info
+### Intelligent Knowledge Retrieval for Complex Case Management
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+🔗 **Live Demo:** [https://candid-griffin-a334a3.netlify.app/](https://candid-griffin-a334a3.netlify.app/)
+📦 **Repository:** [https://github.com/Neerajupadhayay2004/case-compass](https://github.com/Neerajupadhayay2004/case-compass)
 
-## How can I edit this code?
+---
 
-There are several ways of editing your application.
+## 🚀 Project Overview
 
-**Use Lovable**
+**Case Compass** is an AI-powered, context-aware knowledge retrieval system designed for **enterprise case management environments**.
+It helps support agents make **fast, accurate, and compliant decisions** by delivering **just-in-time policy guidance** directly within their workflow.
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+The system addresses a critical challenge faced by organizations handling **high-stakes cases** such as:
 
-Changes made via Lovable will be committed automatically to this repo.
+* Insurance claim processing
+* Government benefit approvals
+* Regulatory and compliance case handling
 
-**Use your preferred IDE**
+Instead of manually searching fragmented documents, agents receive **relevant policy clauses with verifiable citations**, reducing handling time and compliance risks.
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+---
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+## 🎯 Key Features
 
-Follow these steps:
+* **Context-Aware Knowledge Retrieval**
+  Automatically analyzes active case data (e.g., claim type, jurisdiction) to fetch relevant information.
+
+* **Just-in-Time Assistance**
+  Proactively surfaces required policy clauses without manual search.
+
+* **Verifiable Citations**
+  Every AI-generated insight is linked to the exact document, page, and clause.
+
+* **Workflow-Friendly UI**
+  Designed to integrate seamlessly with enterprise case management systems.
+
+* **Audit-Ready Outputs**
+  Ensures transparency, traceability, and regulatory compliance.
+
+---
+
+## 🧠 System Architecture (High Level)
+
+1. Case context extraction from active workflow
+2. Semantic retrieval from indexed knowledge sources
+3. AI reasoning using Retrieval-Augmented Generation (RAG)
+4. Citation mapping and compliance validation
+5. Contextual response delivery to the agent interface
+
+---
+
+## 🛠️ Tech Stack
+
+This project is built using modern frontend and UI technologies:
+
+* React
+* TypeScript
+* Vite
+* Tailwind CSS
+* shadcn/ui
+
+---
+
+## 💻 Running the Project Locally
+
+### Prerequisites
+
+* Node.js (v18 or later)
+* npm or yarn
+
+### Steps
 
 ```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+# Clone the repository
+git clone https://github.com/Neerajupadhayay2004/case-compass.git
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+# Navigate to the project directory
+cd case-compass
 
-# Step 3: Install the necessary dependencies.
-npm i
+# Install dependencies
+npm install
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+# Start the development server
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+The application will be available at:
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+```
+http://localhost:5173
+```
 
-**Use GitHub Codespaces**
+---
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+## 🌐 Deployment
 
-## What technologies are used for this project?
+The project is deployed using **Netlify** and can be accessed here:
+👉 [https://candid-griffin-a334a3.netlify.app/](https://candid-griffin-a334a3.netlify.app/)
 
-This project is built with:
+---
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+## 📈 Use Cases
 
-## How can I deploy this project?
+* Enterprise customer support systems
+* Insurance claim processing platforms
+* Government and public sector case management
+* Regulatory and compliance-driven workflows
 
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
+---
 
-## Can I connect a custom domain to my Lovable project?
+## 🔮 Future Enhancements
 
-Yes, you can!
+* Multilingual policy understanding
+* Predictive compliance risk alerts
+* Voice-based agent assistance
+* Integration with live regulatory APIs
+* Explainable AI dashboards for audits
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+---
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+## 👤 Author
+
+**Neeraj Upadhayay**
+🎓 Cybersecurity Student | Full-Stack & AI Enthusiast
+
+🔗 GitHub: [https://github.com/Neerajupadhayay2004](https://github.com/Neerajupadhayay2004)
+
+---
+
+## 📄 License
+
+This project is licensed under the **MIT License**.
+Feel free to use, modify, and distribute with attribution.
+
