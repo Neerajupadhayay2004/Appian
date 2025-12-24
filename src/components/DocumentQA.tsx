@@ -25,8 +25,10 @@ interface QAResult {
   answer: string;
   page_number: number | null;
   section: string | null;
+  paragraph: string | null;
   confidence: number | null;
   source: string;
+  document_name: string | null;
 }
 
 interface DocumentQAProps {
@@ -54,8 +56,9 @@ export function DocumentQA({ documents }: DocumentQAProps) {
     setResult(null);
 
     try {
+      const selectedDocument = documents.find(d => d.id === selectedDoc);
       const { data, error } = await supabase.functions.invoke("document-qa", {
-        body: { url: doc.file_url, question },
+        body: { url: selectedDocument?.file_url, question },
       });
 
       if (error) throw error;
@@ -64,8 +67,10 @@ export function DocumentQA({ documents }: DocumentQAProps) {
         answer: data.answer || "No answer found",
         page_number: data.page_number,
         section: data.section,
+        paragraph: data.paragraph || null,
         confidence: data.confidence,
         source: data.source,
+        document_name: selectedDocument?.title || null,
       };
 
       setResult(qaResult);
@@ -132,38 +137,68 @@ export function DocumentQA({ documents }: DocumentQAProps) {
 
         {/* Current Result */}
         {result && (
-          <Card variant="elevated" className="p-4 animate-fade-in">
-            <div className="space-y-3">
+          <Card variant="elevated" className="p-4 animate-fade-in border-l-4 border-l-primary">
+            <div className="space-y-4">
+              {/* Answer */}
               <div className="flex items-start gap-3">
-                <div className="p-2 rounded-lg bg-primary/20">
+                <div className="p-2 rounded-lg bg-primary/20 shrink-0">
                   <BookOpen className="h-4 w-4 text-primary" />
                 </div>
                 <div className="flex-1">
-                  <p className="text-sm">{result.answer}</p>
+                  <p className="text-sm leading-relaxed">{result.answer}</p>
                 </div>
               </div>
               
-              {/* References */}
-              <div className="flex flex-wrap gap-2 pt-2 border-t border-border">
-                {result.page_number && (
-                  <Badge variant="outline" className="gap-1">
-                    <Hash className="h-3 w-3" />
-                    Page {result.page_number}
-                  </Badge>
-                )}
-                {result.section && (
-                  <Badge variant="outline" className="gap-1">
-                    <BookOpen className="h-3 w-3" />
-                    Section {result.section}
-                  </Badge>
-                )}
+              {/* Document Reference Box */}
+              <div className="bg-secondary/30 rounded-lg p-3 space-y-2">
+                <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
+                  📚 Source Reference
+                </p>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                  {result.document_name && (
+                    <div className="flex items-center gap-2 p-2 bg-card rounded border border-border">
+                      <FileText className="h-4 w-4 text-primary shrink-0" />
+                      <div>
+                        <p className="text-xs text-muted-foreground">Document Name</p>
+                        <p className="text-sm font-medium truncate">{result.document_name}</p>
+                      </div>
+                    </div>
+                  )}
+                  {result.page_number && (
+                    <div className="flex items-center gap-2 p-2 bg-card rounded border border-border">
+                      <Hash className="h-4 w-4 text-warning shrink-0" />
+                      <div>
+                        <p className="text-xs text-muted-foreground">Page Number</p>
+                        <p className="text-sm font-medium">Page {result.page_number}</p>
+                      </div>
+                    </div>
+                  )}
+                  {(result.section || result.paragraph) && (
+                    <div className="flex items-center gap-2 p-2 bg-card rounded border border-border">
+                      <BookOpen className="h-4 w-4 text-success shrink-0" />
+                      <div>
+                        <p className="text-xs text-muted-foreground">Section/Paragraph</p>
+                        <p className="text-sm font-medium">
+                          {result.section && `Section ${result.section}`}
+                          {result.section && result.paragraph && " • "}
+                          {result.paragraph && `¶${result.paragraph}`}
+                        </p>
+                      </div>
+                    </div>
+                  )}
+                </div>
                 {result.confidence && (
-                  <Badge 
-                    variant={result.confidence > 0.7 ? "success" : "warning"}
-                    className="gap-1"
-                  >
-                    {Math.round(result.confidence * 100)}% confidence
-                  </Badge>
+                  <div className="flex items-center gap-2 pt-2">
+                    <Badge 
+                      variant={result.confidence > 0.7 ? "success" : "warning"}
+                      className="gap-1"
+                    >
+                      {Math.round(result.confidence * 100)}% confidence
+                    </Badge>
+                    <span className="text-xs text-muted-foreground">
+                      Source: {result.source === "bytez_docvqa" ? "Document AI" : "AI Analysis"}
+                    </span>
+                  </div>
                 )}
               </div>
             </div>
@@ -182,12 +217,12 @@ export function DocumentQA({ documents }: DocumentQAProps) {
               >
                 <p className="font-medium text-primary mb-1">Q: {item.question}</p>
                 <p className="text-muted-foreground line-clamp-2">A: {item.answer.answer}</p>
-                {item.answer.page_number && (
-                  <p className="text-xs text-muted-foreground mt-1">
-                    📄 Page {item.answer.page_number}
-                    {item.answer.section && ` • Section ${item.answer.section}`}
-                  </p>
-                )}
+                <div className="flex flex-wrap gap-1 mt-1 text-xs text-muted-foreground">
+                  {item.answer.document_name && <span>📄 {item.answer.document_name}</span>}
+                  {item.answer.page_number && <span>• Page {item.answer.page_number}</span>}
+                  {item.answer.section && <span>• Section {item.answer.section}</span>}
+                  {item.answer.paragraph && <span>• ¶{item.answer.paragraph}</span>}
+                </div>
               </div>
             ))}
           </div>

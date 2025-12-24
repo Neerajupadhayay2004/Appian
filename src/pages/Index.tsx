@@ -7,10 +7,13 @@ import { DocumentViewer } from "@/components/DocumentViewer";
 import { AskQuestion } from "@/components/AskQuestion";
 import { TeamActivity } from "@/components/TeamActivity";
 import { Scene3D } from "@/components/Scene3D";
+import { AnalyticsDashboard } from "@/components/AnalyticsDashboard";
+import { PolicyRecommendations } from "@/components/PolicyRecommendations";
 import { getKnowledgeSuggestions, CaseContext, KnowledgeResult } from "@/lib/gemini";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { MessageSquare, Sparkles, ArrowRight } from "lucide-react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { MessageSquare, Sparkles, ArrowRight, BarChart3, FileText } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 const sampleCase: CaseContext = {
@@ -66,69 +69,95 @@ export default function Index() {
         </CardContent>
       </Card>
       
-      <MetricsBar />
-      
-      {/* Desktop Layout */}
-      <div className="hidden xl:grid grid-cols-12 gap-6 mt-6">
-        <div className="col-span-3 space-y-6">
-          <CaseContextPanel caseData={sampleCase} />
-          <TeamActivity />
-        </div>
-        <div className="col-span-4">
-          <KnowledgeSuggestions
-            suggestions={suggestions}
-            isLoading={isLoading}
-            onSelectArticle={setSelectedArticle}
-          />
-        </div>
-        <div className="col-span-5 space-y-6">
-          <DocumentViewer
-            article={selectedArticle}
-            onClose={() => setSelectedArticle(null)}
-          />
-          <AskQuestion caseContext={sampleCase} />
-        </div>
-      </div>
+      {/* Main Tabs */}
+      <Tabs defaultValue="dashboard" className="space-y-6">
+        <TabsList className="grid w-full grid-cols-2 lg:w-auto lg:inline-flex">
+          <TabsTrigger value="dashboard" className="gap-2">
+            <BarChart3 className="h-4 w-4" />
+            Analytics Dashboard
+          </TabsTrigger>
+          <TabsTrigger value="cases" className="gap-2">
+            <FileText className="h-4 w-4" />
+            Case Management
+          </TabsTrigger>
+        </TabsList>
 
-      {/* Tablet Layout */}
-      <div className="hidden md:grid xl:hidden grid-cols-2 gap-6 mt-6">
-        <div className="space-y-6">
-          <CaseContextPanel caseData={sampleCase} />
-          <TeamActivity />
-          <AskQuestion caseContext={sampleCase} />
-        </div>
-        <div className="space-y-6">
-          <KnowledgeSuggestions
-            suggestions={suggestions}
-            isLoading={isLoading}
-            onSelectArticle={setSelectedArticle}
-          />
-          {selectedArticle && (
-            <DocumentViewer
-              article={selectedArticle}
-              onClose={() => setSelectedArticle(null)}
+        {/* Analytics Dashboard Tab */}
+        <TabsContent value="dashboard" className="space-y-6">
+          <MetricsBar />
+          <AnalyticsDashboard />
+        </TabsContent>
+
+        {/* Case Management Tab */}
+        <TabsContent value="cases" className="space-y-6">
+          <MetricsBar />
+          
+          {/* Desktop Layout */}
+          <div className="hidden xl:grid grid-cols-12 gap-6">
+            <div className="col-span-3 space-y-6">
+              <CaseContextPanel caseData={sampleCase} />
+              <PolicyRecommendations caseType={sampleCase.claimType} />
+              <TeamActivity />
+            </div>
+            <div className="col-span-4">
+              <KnowledgeSuggestions
+                suggestions={suggestions}
+                isLoading={isLoading}
+                onSelectArticle={setSelectedArticle}
+              />
+            </div>
+            <div className="col-span-5 space-y-6">
+              <DocumentViewer
+                article={selectedArticle}
+                onClose={() => setSelectedArticle(null)}
+              />
+              <AskQuestion caseContext={sampleCase} />
+            </div>
+          </div>
+
+          {/* Tablet Layout */}
+          <div className="hidden md:grid xl:hidden grid-cols-2 gap-6">
+            <div className="space-y-6">
+              <CaseContextPanel caseData={sampleCase} />
+              <PolicyRecommendations caseType={sampleCase.claimType} />
+              <TeamActivity />
+              <AskQuestion caseContext={sampleCase} />
+            </div>
+            <div className="space-y-6">
+              <KnowledgeSuggestions
+                suggestions={suggestions}
+                isLoading={isLoading}
+                onSelectArticle={setSelectedArticle}
+              />
+              {selectedArticle && (
+                <DocumentViewer
+                  article={selectedArticle}
+                  onClose={() => setSelectedArticle(null)}
+                />
+              )}
+            </div>
+          </div>
+
+          {/* Mobile Layout */}
+          <div className="md:hidden space-y-4">
+            <CaseContextPanel caseData={sampleCase} />
+            <PolicyRecommendations caseType={sampleCase.claimType} />
+            <TeamActivity />
+            <KnowledgeSuggestions
+              suggestions={suggestions}
+              isLoading={isLoading}
+              onSelectArticle={setSelectedArticle}
             />
-          )}
-        </div>
-      </div>
-
-      {/* Mobile Layout */}
-      <div className="md:hidden space-y-4 mt-4">
-        <CaseContextPanel caseData={sampleCase} />
-        <TeamActivity />
-        <KnowledgeSuggestions
-          suggestions={suggestions}
-          isLoading={isLoading}
-          onSelectArticle={setSelectedArticle}
-        />
-        {selectedArticle && (
-          <DocumentViewer
-            article={selectedArticle}
-            onClose={() => setSelectedArticle(null)}
-          />
-        )}
-        <AskQuestion caseContext={sampleCase} />
-      </div>
+            {selectedArticle && (
+              <DocumentViewer
+                article={selectedArticle}
+                onClose={() => setSelectedArticle(null)}
+              />
+            )}
+            <AskQuestion caseContext={sampleCase} />
+          </div>
+        </TabsContent>
+      </Tabs>
     </Layout>
   );
 }
